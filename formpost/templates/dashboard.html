@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — FormPost{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="card-header" style="margin-bottom:1rem">
+    <h2 style="font-size:1.4rem">Your Forms</h2>
+    <a href="/forms/new" class="btn btn-primary">+ New Form</a>
+  </div>
+
+  {% if forms %}
+  <div class="card" style="padding:0">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Endpoint</th>
+          <th>Submissions</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for f in forms %}
+        <tr>
+          <td><a href="/forms/{{ f.id }}"><strong>{{ f.name }}</strong></a></td>
+          <td><span class="endpoint">/f/{{ f.token }}</span></td>
+          <td>{{ f.submission_count }}</td>
+          <td>
+            {% if f.enabled %}
+              <span class="badge badge-green">Active</span>
+            {% else %}
+              <span class="badge badge-gray">Disabled</span>
+            {% endif %}
+          </td>
+          <td>
+            <form method="post" action="/forms/{{ f.id }}/delete"
+                  onsubmit="return confirm('Delete this form and all its submissions?')">
+              <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% else %}
+  <div class="card">
+    <div class="empty">
+      <p>No forms yet.</p>
+      <a href="/forms/new" class="btn btn-primary">Create your first form</a>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

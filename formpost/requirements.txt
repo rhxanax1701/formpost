@@ -1,0 +1,10 @@
+flask
+flask-sqlalchemy
+flask-login
+python-dotenv
+werkzeug
+flask-mail
+flask-wtf
+requests
+gunicorn
+flask-limiter

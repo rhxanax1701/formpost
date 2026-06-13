@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}{{ form.name }} — FormPost{% endblock %}
+{% block content %}
+<div class="container">
+
+  <div class="card" style="margin-bottom:1.5rem">
+    <div class="card-header">
+      <h2>{{ form.name }}</h2>
+      <div style="display:flex;gap:.5rem">
+        <a href="/forms/{{ form.id }}/export" class="btn btn-primary btn-sm">Export CSV</a>
+        <a href="/dashboard" class="btn btn-sm" style="background:#f1f5f9;color:#374151">← Dashboard</a>
+      </div>
+    </div>
+
+    <table style="margin-top:.5rem">
+      <tr>
+        <td style="width:140px;color:#64748b;font-size:.85rem;padding:.5rem .8rem">Endpoint</td>
+        <td><span class="endpoint">{{ request.host_url }}f/{{ form.token }}</span></td>
+      </tr>
+      <tr>
+        <td style="color:#64748b;font-size:.85rem;padding:.5rem .8rem">Notify</td>
+        <td style="font-size:.9rem">{{ form.notify_email }}</td>
+      </tr>
+      {% if form.redirect_url %}
+      <tr>
+        <td style="color:#64748b;font-size:.85rem;padding:.5rem .8rem">Redirect</td>
+        <td style="font-size:.9rem">{{ form.redirect_url }}</td>
+      </tr>
+      {% endif %}
+      <tr>
+        <td style="color:#64748b;font-size:.85rem;padding:.5rem .8rem">hCaptcha</td>
+        <td>
+          {% if form.hcaptcha %}
+            <span class="badge badge-green">Enabled</span>
+          {% else %}
+            <span class="badge badge-gray">Disabled</span>
+          {% endif %}
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem">
+    <h3>Submissions <span style="color:#94a3b8;font-weight:400;font-size:.9rem">({{ submissions|length }})</span></h3>
+  </div>
+
+  {% for s in submissions %}
+  <div class="sub-card">
+    <div class="sub-meta">{{ s.created_at.strftime('%Y-%m-%d %H:%M') }} &nbsp;·&nbsp; {{ s.ip_address }}</div>
+    <div style="margin-top:.5rem">
+      {% for k, v in s.data.items() %}
+      <div style="display:flex;gap:.5rem;padding:.35rem 0;border-bottom:1px solid #f1f5f9">
+        <span style="min-width:120px;color:#64748b;font-size:.85rem;font-weight:600;text-transform:capitalize">{{ k }}</span>
+        <span style="font-size:.9rem;color:#1a1a2e">{{ v }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
+  <div class="card">
+    <div class="empty">
+      <p>No submissions yet.</p>
+    </div>
+  </div>
+  {% endfor %}
+
+</div>
+{% endblock %}

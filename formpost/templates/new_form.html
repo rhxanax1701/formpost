@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}New Form — FormPost{% endblock %}
+{% block content %}
+<div class="container" style="max-width:540px">
+  <div class="card">
+    <div class="card-header">
+      <h2>New Form</h2>
+      <a href="/dashboard">← Back</a>
+    </div>
+    <form method="post">
+      <div class="form-group">
+        <label>Form Name</label>
+        <input name="name" placeholder="e.g. Contact Form" required autofocus>
+      </div>
+      <div class="form-group">
+        <label>Notification Email</label>
+        <input name="notify_email" type="email" placeholder="where to send alerts" required>
+      </div>
+      <div class="form-group">
+        <label>Redirect URL <span style="color:#94a3b8;font-weight:400">(optional)</span></label>
+        <input name="redirect_url" placeholder="https://yoursite.com/thanks">
+      </div>
+      <div class="form-group" style="display:flex;align-items:center;gap:.5rem">
+        <input type="checkbox" name="hcaptcha" id="hcaptcha" style="width:auto">
+        <label for="hcaptcha" style="margin:0">Enable hCaptcha on this form</label>
+      </div>
+      <button class="btn btn-primary" type="submit">Create Form</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

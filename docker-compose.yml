@@ -1,0 +1,13 @@
+services:
+  web:
+    build: ./formpost
+    ports:
+      - "5000:5000"
+    volumes:
+      - db_data:/app/instance
+    env_file:
+      - ./formpost/.env
+    restart: unless-stopped
+
+volumes:
+  db_data:

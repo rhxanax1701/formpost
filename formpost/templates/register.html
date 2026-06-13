@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Register — FormPost{% endblock %}
+{% block content %}
+<div class="auth-box">
+  <h1>⚡ FormPost</h1>
+  <p style="text-align:center;color:#64748b;margin-bottom:1.5rem;font-size:.9rem">Create your account</p>
+  <form method="post">
+    <div class="form-group">
+      <label>Email</label>
+      <input name="email" type="email" placeholder="you@example.com" required autofocus>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input name="password" type="password" placeholder="••••••••" required>
+    </div>
+    <button class="btn btn-primary" style="width:100%" type="submit">Create account</button>
+  </form>
+</div>
+{% endblock %}
