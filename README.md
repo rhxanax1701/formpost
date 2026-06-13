@@ -223,6 +223,72 @@ formpost/
 - [ ] Postgres support
 - [ ] HTTPS / Nginx setup guide
 
+
+---
+
+## Production Deployment (Nginx + HTTPS)
+
+### 1. Install Nginx and Certbot
+
+```bash
+sudo apt install nginx certbot python3-certbot-nginx -y
+```
+
+### 2. Create Nginx config
+
+```bash
+sudo nano /etc/nginx/sites-available/formpost
+```
+
+Paste this (replace `yourdomain.com`):
+
+```nginx
+server {
+    server_name yourdomain.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+### 3. Enable the site
+
+```bash
+sudo ln -s /etc/nginx/sites-available/formpost /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+### 4. Get free HTTPS certificate
+
+```bash
+sudo certbot --nginx -d yourdomain.com
+```
+
+Certbot auto-renews. Your site is now on HTTPS.
+
+### 5. Switch to Postgres (recommended for production)
+
+```bash
+pip install psycopg2-binary
+```
+
+Update `.env`:
+DATABASE_URL=postgresql://user:password@localhost/formpost
+
+### 6. Set a strong secret key
+
+```bash
+python3 -c "import secrets; print(secrets.token_hex(32))"
+```
+
+Paste the output as `SECRET_KEY` in your `.env`.
+
 ---
 
 ## License
