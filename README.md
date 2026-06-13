@@ -35,7 +35,7 @@ FormPost runs on your own server. You own everything.
 
 **1. Clone the repo**
 ```bash
-git clone https://github.com/YOUR_USERNAME/formpost.git
+git clone https://github.com/rhxanax1701/formpost.git
 cd formpost
 ```
 
